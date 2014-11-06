@@ -41,20 +41,32 @@
             }).done(function (data) {
                 $(".container").text(data);
                 console.log(data);
+                newDate = addInterval(data.result.datestamp, data.result.interval);
+                console.log(newDate);
+                sendback(newDate);
             }); 
 		});
 
-		function getIndex(arrayVals, searchVal) {
-			var index = 0;
-			while (arrayVals[index] !== searchVal) {
-				index++;
-			}
-			console.log(arrayVals[index]);
-			return index;
+		function addInterval(dateStampIn, intervalIn) {
+			var date = new Date(dateStampIn);
+			date.setSeconds(date.getSeconds() + intervalIn);
+			return date.toISOString();
 		}
 
-		function sendback(needleIn) {
-			
+		function sendback(newISOIn) {
+			var sendbackData = {
+        		"token" : "jLPUnJ6PNc",
+        		"datestamp" : newISOIn
+        	}
+        	$.ajax({
+                url: "http://challenge.code2040.org/api/validatetime",
+                type: 'POST',
+                crossDomain: true,
+                dataType: 'json',
+                data: JSON.stringify(sendbackData)
+            }).done(function (data) {
+                console.log(data);
+            });
 		}
 	</script>
 </body>
