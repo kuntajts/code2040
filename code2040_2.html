@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../favicon.ico">
+
+	<title>Jordan T. Smith</title>
+
+	<link href="../boot/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container">
+	</div>
+	<script>
+		var send = {
+			"token" : "jLPUnJ6PNc"
+		}
+		$(document).ready(function(){
+			$(".container").text("ready!");
+			$(".container").text(send);
+			console.log(send);
+			
+			$.ajax({
+                url: "http://challenge.code2040.org/api/getstring",
+                type: 'POST',
+                crossDomain: true,
+                dataType: 'json',
+                data: JSON.stringify(send)
+            }).done(function (data) {
+                $(".container").text(data);
+                console.log(data);
+                var result = reverse(data.result);
+                console.log("result: " + result);
+                sendback(result);
+            });
+
+            function reverse(stringIn) {
+            	//base case
+            	if (stringIn === "") {
+            		return "";
+            	} else {
+            		//recursive return
+            		return reverse(stringIn.substring(1, stringIn.length)) + stringIn.charAt(0);
+            	}
+            }
+
+            function sendback(stringIn) {
+            	var sendbackData = {
+            		"token" : "jLPUnJ6PNc",
+            		"string" : stringIn
+            	}
+            	$.ajax({
+	                url: "http://challenge.code2040.org/api/validatestring",
+	                type: 'POST',
+	                crossDomain: true,
+	                dataType: 'json',
+	                data: JSON.stringify(sendbackData)
+	            }).done(function (data) {
+	                console.log(data);
+	            });
+            }
+		});
+	</script>
+	</script>
+</body>
+</html>
