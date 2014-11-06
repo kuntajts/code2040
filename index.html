@@ -80,6 +80,7 @@
 			"token" : "jLPUnJ6PNc"
 		}
 		$(document).ready(function(){
+			//simple ajax call with a post param and expecting a json return
 			$(".st1").click(function() {			
 				$.ajax({
 	                url: "http://challenge.code2040.org/api/getstring",
@@ -164,22 +165,25 @@
 
             function getIndex(arrayVals, searchVal) {
 				var index = 0;
+				//once value is found end loop
 				while (arrayVals[index] !== searchVal) {
 					index++;
 				}
-				console.log(arrayVals[index]);
+				}
 				return index;
 			}
 
 			function getNonMatchingArray(arrayVals, prefixIn) {
+				//regular expression for prefix
 				var pattern = RegExp("^" + prefixIn);
 				result = [];
 				for(var i = 0; i < arrayVals.length; i++) {
+					//if the pattern does not matche the array value
 					if (!pattern.test(arrayVals[i])){
+						//add to array to be returned
 						result.push(arrayVals[i]);
 					}
 				}
-
 				return result;
 			}
 
@@ -190,6 +194,7 @@
 			}
 
             function sendback(key, value, endpointIn, stage) {
+            	//Generic ajax to send results of stages
             	var sendbackData = {
             		"token" : "jLPUnJ6PNc"
             	}
@@ -201,6 +206,7 @@
 	                dataType: 'json',
 	                data: JSON.stringify(sendbackData)
 	            }).done(function (data) {
+	            	//print out the validation
 	                $("#validation" + stage).text(data.result);
 	            });
             }
